@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head> <!--Metadados não visiveis na pagina -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="js/codigos.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <title>Site LP3</title>
+
+
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script> 
+</head>
+
+<script>
+    function callApi(){
+        let URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/brl.json" 
+
+        fetch(URL)
+            .then(req => req.json())
+            .then(show => {console.log(show); fillTable(show);})
+
+    }
+
+    function fillTable(tableData){
+        const tbodyTag = document.getElementById("tableData");
+        const dateTag = document.getElementById("date");
+
+        dateTag.innerHTML ="";
+        tbodyTag.innerHTML ="";
+
+        for(var item in tableData.brl) {
+            let trtag = document.createElement("tr");
+            let tdtagMoeda= document.createElement("td");
+            let tdtagValor= document.createElement("td");
+
+            if(item == "usd" | item == "cny" | item == "eur"){
+                tdtagMoeda.innerHTML = item;
+                trtag.appendChild(tdtagMoeda);
+
+                tdtagValor.innerHTML = tableData.brl[item];
+                trtag.appendChild(tdtagValor);
+
+                tbodyTag.appendChild(trtag);
+            }            
+        }
+        for(var item in tableData.date) {
+            let tdtagData= document.createElement("date");
+            tdtagData.innerHTML =  tableData.date[item];
+            dateTag.appendChild(tdtagData);            
+        }
+    }
+</script>
+
+<body>
+        <div class="topnav">
+        <a href="./ConsultaMoeda.html" class="active">Consultar Valor do Real</a>
+        <div id="myLinks">
+          <a href="./index.html">Quote Animes</a>
+          <a href="./CEP.html">Consulta de Endereços</a>
+          <a href="./ChurchCalendar.html">Church Calendar Today</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="box">
+
+            <h1>Valor do Real no mundo</h1>
+            <h2>Preço de 1 real em YUAN ,EURO E DOLLAR </h2>
+            <h3 id = "date">Atualizado em: </h3>
+        
+            <p><button onclick="callApi();">Consultar</button></p>
+            <p>
+                <table class="Table2">
+                    <thead>
+                        <tr><th>Moeda &nbsp;&nbsp;&nbsp;</th><th>Valor</th></tr>
+                    </thead>
+                    <tbody id = "tableData">
+                    </tbody>
+                    
+                </table>
+            </p> 
+
+        </div>
+    </div>
+    
+
+</body>
+</html>

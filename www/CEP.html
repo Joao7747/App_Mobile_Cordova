@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <link rel="stylesheet" href="css/stylesheet.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/estilos.css">
+        <script src="js/codigos.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WEB API</title>
+
+    </head>
+
+    <body>
+
+        <div class="topnav">
+            <a href="./CEP.html" class="active">Consulta de Endereços</a>
+            <div id="myLinks">
+              <a href="./index.html">Quote Animes</a>
+              <a href="./ConsultaMoeda.html">Consultar Valor do Real</a>
+              <a href="./ChurchCalendar.html">Church Calendar Today</a>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+<div class="container">
+<div class="box">
+    <h1 style="text-align: center;">Consultar Endereço</h1>
+
+            
+            <p >
+                <form action='' >
+                    <input type="text" class="label" placeholder="Insira o CEP" id="cep"><br><br>
+                    <input type="button" class="button" onclick="callApi();" value="Pesquisar"><br><br>
+                </form>
+            </p>
+            <div class="tablealign">
+            <table class="Table" >
+                <thead>
+                    <tr>
+                        <th>CEP</th>
+                        <th>Logradouro</th>
+                        <th>Complemento</th>
+                        <th>Bairro</th>
+                        <th>Localidade</th>
+                        <th>UF</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela"></tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+        
+
+    </body>
+</html>
+
+<script>
+    function callApi() {
+        
+        var input = document.getElementById("cep");
+        var cep = input.value;
+        
+        console.log(cep);
+
+        let url = "https://viacep.com.br/ws/" + cep + "/json/";
+        fetch(url)
+            .then(req => req.json())
+            .then(show => {console.log(show); fillTable(show);})
+
+
+        // let request = new XMLHttpRequest()
+        // request.open("GET", url, false)
+        // request.send()
+        // return request.responseText
+
+    }
+
+    function fillTable(tableData) {
+        
+        const tbodyTag = document.getElementById("tabela");
+        tbodyTag.innerHTML = "";
+
+        
+            let trTag = document.createElement("tr");
+        
+            let tdcep = document.createElement("td");
+            let tdlogradouro = document.createElement("td");
+            let tdcomplemento = document.createElement("td");
+            let tdbairro = document.createElement("td");
+            let tdlocalidade = document.createElement("td");
+            let tduf = document.createElement("td");
+
+
+                 
+                tdcep.innerHTML = tableData.cep;
+                trTag.appendChild(tdcep);
+                tdlogradouro.innerHTML = tableData.logradouro;
+                trTag.appendChild(tdlogradouro);
+                tdcomplemento.innerHTML = tableData.complemento;
+                trTag.appendChild(tdcomplemento);
+                tdbairro.innerHTML = tableData.bairro;
+                trTag.appendChild(tdbairro);
+                tdlocalidade.innerHTML = tableData.localidade;
+                trTag.appendChild(tdlocalidade);
+                tduf.innerHTML = tableData.uf;
+                trTag.appendChild(tduf);
+                
+            tbodyTag.appendChild(trTag);
+        
+         
+        
+    }
+
+
+</script>

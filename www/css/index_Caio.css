@@ -1,0 +1,36 @@
+table.Table {
+    align-content: center;
+    justify-self: center;
+    border: 1px solid #000000;
+    background-color: #EEEEEE;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    overflow-x: auto;
+  }
+  table.Table td, table.Table th {
+    border: 1px solid #050505;
+    padding: 3px 2px;
+  }
+  table.Table tbody td {
+    font-size: 13px;
+    color: #0707078c;
+  }
+  table.Table tr:nth-child(even) {
+    background: #636C74;
+  }
+  table.Table thead {
+    background: #000000;
+    background: -moz-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
+    background: -webkit-linear-gradient(top, #404040 0%, #191919 66%, #000000 100%);
+    background: linear-gradient(to bottom, #404040 0%, #191919 66%, #000000 100%);
+  }
+  table.Table thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+  }
+  table.Table tfoot td {
+    font-size: 14px;
+  }

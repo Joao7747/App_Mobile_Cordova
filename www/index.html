@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <style>
+        @media only screen and (max-width: 323px){
+            #divAnime {
+                width: 90% !important;
+            }
+
+            #divPerso {
+                width: 90% !important;
+            }
+
+            .div100 {
+                width: 100% !important;
+            }
+
+            .btn {
+                font-size: 11px !important;
+            }
+
+            p, th, td {
+                font-size: 12px;
+            }
+        }
+
+        @media only screen and (min-width: 324px) and (max-width: 377px){
+            #divAnime {
+                width: 90% !important;
+                margin: 8px auto !important;
+            }
+
+            #divPerso {
+                width: 90% !important;
+                margin: 8px auto !important;
+            }
+
+            .div100 {
+                width: 100% !important;
+            }
+
+            .btn {
+                font-size: 11px !important;
+            }
+
+            p, th, td {
+                font-size: 12px;
+            }
+        }
+
+        @media only screen and (min-width: 378px) and (max-width: 427px){
+            #divAnime {
+                width: 90% !important;
+                margin: 8px auto !important;
+            }
+
+            #divPerso {
+                width: 90% !important;
+                margin: 8px auto !important;
+            }
+
+            .div100 {
+                width: 100% !important;
+            }
+
+            .btn {
+                font-size: 11px !important;
+            }
+
+            p, th, td {
+                font-size: 12px;
+            }
+        }
+        
+    </style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/estilos.css">
+        <script src="js/codigos.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+         
+
+        <title>API Quote Anime</title>
+    </head>
+    <body>
+        <div class="topnav">
+            <a href="./index.html" class="active">Quote Anime</a>
+            <div id="myLinks">
+              <a href="./CEP.html">Consulta de Endereços</a>
+              <a href="./ConsultaMoeda.html">Consultar Valor do Real</a>
+              <a href="./ChurchCalendar.html">Church Calendar Today</a>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+        <div class="div100" style="float: left; width: 50%;">
+            <label for="anime" style="margin-left: 22px;">Pesquise Quote pelo nome do Anime: </label>
+            <div id="divAnime" class="input-group mb-3" style="width: 500px; margin-left: 20px;">
+            <input type="text" id="anime" class="form-control" name="anime" placeholder="Insira o Nome do Anime..."/>  
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="pesqAnime">Pesquisar</button>
+            </div>
+        </div>
+        </div>
+        
+        <div class="div100" style="float: left; width: 50%;">
+            <label for="personagem" style="margin-left: 22px;">Pesquise Quote pelo nome do Personagem: </label>
+            <div id="divPerso" class="input-group mb-3" style="width: 500px; margin-left: 20px;">
+            <input type="text" id="personagem" class="form-control" name="personagem" placeholder="Insira o Nome do Personagem..."/>  
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="pesqPersona">Pesquisar</button>
+            </div>
+        </div>
+        </div>
+        
+        
+        
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Anime</th>
+                    <th scope="col">Personagem</th>
+                    <th scopp="col">Quote</th>
+                </tr>
+            </thead>
+            <tbody id="corpo-tabela"></tbody>
+        </table>
+
+
+        <script>
+             $('button.btn').click(function() {
+                $('tr.remove').remove();
+            });
+
+            document.getElementById("pesqAnime").onclick = function() {
+                var valor = document.getElementById("anime").value;
+                var api = "https://animechan.vercel.app/api/quotes/anime?title=" + valor;
+                let datapesq1 = getAPI(api);
+                let quotes = JSON.parse(datapesq1);
+
+                let tabela = document.getElementById("corpo-tabela");
+                quotes.forEach(element => {
+                    let linha = criaLinha(element);
+                    tabela.appendChild(linha);
+                });
+            };
+
+            document.getElementById("pesqPersona").onclick = function() {
+                var valor = document.getElementById("personagem").value;
+                var api = "https://animechan.vercel.app/api/quotes/character?name=" + valor;
+                let datapesq1 = getAPI(api);
+                let quotes = JSON.parse(datapesq1);
+
+                let tabela = document.getElementById("corpo-tabela");
+                quotes.forEach(element => {
+                    let linha = criaLinha(element);
+                    tabela.appendChild(linha);
+                });
+            };
+
+            
+            function getAPI(url){
+                let request = new XMLHttpRequest();
+                request.open("GET", url, false);
+                request.send();
+                return request.responseText;
+            }
+
+            function criaLinha(quote){
+                var linha = document.createElement("tr");
+                var tdAnime = document.createElement("td");
+                var tdPersonagem = document.createElement("td");
+                var tdQuote = document.createElement("td");
+                var p = document.createElement("p");
+
+                linha.classList.add("remove");
+
+                tdAnime.innerHTML = quote.anime;
+                tdPersonagem.innerHTML = quote.character;
+                p.innerHTML = quote.quote;
+                tdQuote.appendChild(p);
+
+                linha.appendChild(tdAnime);
+                linha.appendChild(tdPersonagem);
+                linha.appendChild(tdQuote);
+
+                return linha;
+
+            }
+
+            function main(){
+                let data = getAPI("https://animechan.vercel.app/api/quotes");
+                let quotes = JSON.parse(data);
+                let tabela = document.getElementById("corpo-tabela");
+                quotes.forEach(element => {
+                    let linha = criaLinha(element);
+                    tabela.appendChild(linha);
+                });
+            }
+
+            main();
+
+           
+        </script>
+        
+    </body>
+
+</html>
